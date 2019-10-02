@@ -130,7 +130,7 @@ public class TrackerPack implements Runnable {
     private BufferedWriter openLog() {
         FileWriter fw = null;
         try {
-            fw = new FileWriter("/home/Giovani/2019/TCC2/TrackerServerUTFPR/src/log.txt", true);
+            fw = new FileWriter("/home/Giovani/2019/TCC2/TrackerServerUTFPR2/src/log.txt", true);
         } catch (IOException ex) {
             Logger.getLogger(ProcessingModule.class.getName()).log(Level.SEVERE, null, ex);
         }

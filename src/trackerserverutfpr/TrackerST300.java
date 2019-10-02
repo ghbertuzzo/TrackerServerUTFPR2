@@ -6,12 +6,12 @@ import java.util.logging.Logger;
 
 public class TrackerST300 implements TrackerInterface, Runnable {
 
-    public ArrayBlockingQueue<TrackerST300> msgsProcessed;
-    public String msgcomplet;
-    public String datetime;
-    public String latitude;
-    public String longitude;
-    public String idtracker;
+    private ArrayBlockingQueue<TrackerST300> msgsProcessed;
+    private String msgcomplet;
+    private String datetime;
+    private String latitude;
+    private String longitude;
+    private String idtracker;
     private String modelDevice;
     private String softwareVersion;
     private String speed;

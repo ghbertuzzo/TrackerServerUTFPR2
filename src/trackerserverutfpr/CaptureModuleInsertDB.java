@@ -15,16 +15,15 @@ import java.util.logging.Logger;
 
 public class CaptureModuleInsertDB implements Runnable {
 
-    public ArrayBlockingQueue<String> listMsgs;
-    public int timeSleep;
-    public int cicle, sizeArray, retInsert;
-    public int[] sizeInsert;
-    public long startTime, endTime;
+    private ArrayBlockingQueue<String> listMsgs;
+    private int timeSleep;
+    private int sizeArray, retInsert;
+    private int[] sizeInsert;
+    private long startTime, endTime;
 
     public CaptureModuleInsertDB(ArrayBlockingQueue<String> listMsgs, int timesl) {
         this.listMsgs = listMsgs;
         this.timeSleep = timesl;
-        this.cicle = 0;
         this.sizeArray = 0;
         this.retInsert = 0;
         this.sizeInsert = null;
@@ -93,12 +92,11 @@ public class CaptureModuleInsertDB implements Runnable {
     private void registerLog(BufferedWriter bw) {
         try {
             bw.newLine();
-            bw.write(cicle + ";" + (endTime - startTime) + ";" + sizeArray + ";" + retInsert);
+            bw.write((endTime - startTime) + ";" + sizeArray + ";" + retInsert);
             bw.flush();
         } catch (IOException ex) {
             Logger.getLogger(CaptureModuleInsertDB.class.getName()).log(Level.SEVERE, null, ex);
         }
-        cicle++;
         sizeArray = 0;
         retInsert = 0;
     }
@@ -106,7 +104,7 @@ public class CaptureModuleInsertDB implements Runnable {
     private BufferedWriter openLog() {
         FileWriter fw = null;
         try {
-            fw = new FileWriter("/home/Giovani/2019/TCC2/TrackerServerUTFPR/src/log-cap.txt", true);
+            fw = new FileWriter("/home/Giovani/2019/TCC2/TrackerServerUTFPR2/src/log-cap.txt", true);
         } catch (IOException ex) {
             Logger.getLogger(ProcessingModule.class.getName()).log(Level.SEVERE, null, ex);
         }

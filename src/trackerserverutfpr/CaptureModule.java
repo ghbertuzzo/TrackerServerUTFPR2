@@ -11,11 +11,11 @@ import java.util.logging.Logger;
 
 public class CaptureModule implements Runnable {
 
-    public ServerSocket serverSocket;
+    private ServerSocket serverSocket;
     private final int port;
-    public ExecutorService threadPool;
-    public ArrayBlockingQueue<String> listMsgs;
-    public int timeSleep;
+    private ExecutorService threadPool;
+    private ArrayBlockingQueue<String> listMsgs;
+    private int timeSleep;
 
     public CaptureModule(int port, int timesl) {
         this.port = port;
