@@ -46,11 +46,11 @@ public class TrackerPack implements Runnable {
             thread = new Thread(tracker);
             thread.start();
             //BLOQUEAR ATE PROCESSAR TODAS MENSAGENS       
-            try {
+            /*try {
                 thread.join();
             } catch (InterruptedException ex) {
                 Logger.getLogger(TrackerPack.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            }*/
         });
 
         //REMOVE TODAS MENSAGENS PROCESSADAS DO ARRAY COMPARTILHADO
@@ -107,7 +107,7 @@ public class TrackerPack implements Runnable {
             }
             int[] retInsert = ps.executeBatch();
             PreparedStatement ps2 = connection.prepareStatement("UPDATE message_received set processed=1 where number_id=?");
-            for (TrackerST300 tracker : list) {
+            for (TrackerST300 tracker : listProcessed) {
                 ps2.setInt(1, Integer.parseInt(tracker.getIdDB()));
                 ps2.addBatch();
             }
