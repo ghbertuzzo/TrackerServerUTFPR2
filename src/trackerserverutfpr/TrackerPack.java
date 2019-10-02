@@ -22,12 +22,12 @@ public class TrackerPack implements Runnable {
     private ArrayBlockingQueue<TrackerST300> listMsgsProcessed;
     private long startTime, endTime;
     private int sizeSelect, sizeProcessed;
-    
-    public TrackerPack (ArrayList<TrackerST300> listProcess){
+
+    public TrackerPack(ArrayList<TrackerST300> listProcess) {
         this.listProcess = listProcess;
         this.listMsgsProcessed = new ArrayBlockingQueue<>(this.listProcess.size());
     }
-    
+
     @Override
     public void run() {
         BufferedWriter bw = openLog();
@@ -41,10 +41,10 @@ public class TrackerPack implements Runnable {
         this.sizeSelect = this.listProcess.size();
         //PROCESSA MENSAGENS
         this.listProcess.forEach((track) -> {
-            Thread thread = null;                
+            Thread thread = null;
             TrackerST300 tracker = new TrackerST300(track.getMsgcomplet(), this.listMsgsProcessed, track.getIdDB());
             thread = new Thread(tracker);
-            thread.start();      
+            thread.start();
             //BLOQUEAR ATE PROCESSAR TODAS MENSAGENS       
             try {
                 thread.join();
@@ -52,7 +52,7 @@ public class TrackerPack implements Runnable {
                 Logger.getLogger(TrackerPack.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-                
+
         //REMOVE TODAS MENSAGENS PROCESSADAS DO ARRAY COMPARTILHADO
         ArrayList<TrackerST300> listProcessed = removeMsgsProcessed();
         this.sizeProcessed = listProcessed.size();
@@ -65,7 +65,7 @@ public class TrackerPack implements Runnable {
         endTime = System.currentTimeMillis();
         registerLog(bw);
     }
-    
+
     private void updateToProcess(ArrayList<TrackerST300> list) throws SQLException {
         try (Connection connection = DriverManager.getConnection("jdbc:postgresql://172.17.0.3:5432/", "postgres", "utfsenha")) {
             connection.setAutoCommit(false);
@@ -78,13 +78,13 @@ public class TrackerPack implements Runnable {
             connection.commit();
         }
     }
-    
+
     private ArrayList<TrackerST300> removeMsgsProcessed() {
         ArrayList<TrackerST300> listForProcessed = new ArrayList<>();
         this.listMsgsProcessed.drainTo(listForProcessed);
         return listForProcessed;
     }
-    
+
     private void insertAndUpdateMsgsProcessed(ArrayList<TrackerST300> listProcessed, ArrayList<TrackerST300> list) throws SQLException, ParseException {
         int[] retUpdate;
         try (Connection connection = DriverManager.getConnection("jdbc:postgresql://172.17.0.3:5432/", "postgres", "utfsenha")) {
@@ -113,10 +113,10 @@ public class TrackerPack implements Runnable {
             }
             retUpdate = ps2.executeBatch();
             connection.commit();
-            System.out.println("TrackPacket "+Thread.currentThread().getId()+ " size Insert: " + retInsert.length + " size Update: " + retUpdate.length);
+            System.out.println("TrackPacket " + Thread.currentThread().getId() + " size Insert: " + retInsert.length + " size Update: " + retUpdate.length);
         }
     }
-    
+
     private void registerLog(BufferedWriter bw) {
         try {
             bw.newLine();
@@ -137,5 +137,5 @@ public class TrackerPack implements Runnable {
         BufferedWriter bw = new BufferedWriter(fw);
         return bw;
     }
-    
+
 }

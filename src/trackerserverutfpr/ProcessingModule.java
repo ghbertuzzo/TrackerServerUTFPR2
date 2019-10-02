@@ -21,17 +21,17 @@ public class ProcessingModule implements Runnable {
 
     @Override
     public void run() {
-        while (true) {            
+        while (true) {
             //SELECT PARA PEGAR TODAS MSG NAO PROCESSSADAS
             ArrayList<TrackerST300> list = getMsgsInDB();
-            
-            if(!list.isEmpty()){
-            
+
+            if (!list.isEmpty()) {
+
                 //ALOCA PACKET DE MSGS A SEREM PROCESSADAS
                 ArrayList<TrackerST300> lista = new ArrayList<>();
-                for(TrackerST300 track: list){
+                for (TrackerST300 track : list) {
                     lista.add(track);
-                    if(lista.size()>=this.limitThreads){
+                    if (lista.size() >= this.limitThreads) {
                         Thread thread = null;
                         TrackerPack tp = new TrackerPack(lista);
                         thread = new Thread(tp);
@@ -45,9 +45,9 @@ public class ProcessingModule implements Runnable {
                 TrackerPack tp = new TrackerPack(lista);
                 thread = new Thread(tp);
                 thread.start();
-                
+
             }
-            
+
             //ESPERA N SEG PARA REPETIR O CICLO
             try {
                 sleep(this.timeSleep * 1000);

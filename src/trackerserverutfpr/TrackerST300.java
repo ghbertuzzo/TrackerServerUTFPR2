@@ -23,12 +23,12 @@ public class TrackerST300 implements TrackerInterface, Runnable {
         this.msgsProcessed = msgsProcessed;
         this.idDB = id;
     }
-    
+
     public TrackerST300(String msg, String id) {
         this.msgcomplet = msg;
         this.idDB = id;
     }
-    
+
     public TrackerST300(String idTracker, String dateTime, String latitu, String longitu, String idDB) {
         this.idtracker = idTracker;
         this.datetime = dateTime;
@@ -153,7 +153,7 @@ public class TrackerST300 implements TrackerInterface, Runnable {
             }
         }
     }
-    
+
     @Override
     public String getDateTime() {
         return this.datetime;
