@@ -23,71 +23,18 @@ public class TrackerST300 implements TrackerInterface, Runnable {
         this.msgsProcessed = msgsProcessed;
         this.idDB = id;
     }
-
+    
+    public TrackerST300(String msg, String id) {
+        this.msgcomplet = msg;
+        this.idDB = id;
+    }
+    
     public TrackerST300(String idTracker, String dateTime, String latitu, String longitu, String idDB) {
         this.idtracker = idTracker;
         this.datetime = dateTime;
         this.latitude = latitu;
         this.longitude = longitu;
         this.idDB = idDB;
-    }
-
-    @Override
-    public String getDateTime() {
-        return this.datetime;
-    }
-
-    @Override
-    public String getLatitude() {
-        return this.latitude;
-    }
-
-    @Override
-    public String getLongitude() {
-        return this.longitude;
-    }
-
-    @Override
-    public String getIdTracker() {
-        return this.idtracker;
-    }
-
-    public String getModelDevice() {
-        return this.modelDevice;
-    }
-
-    public String getSoftwareVersion() {
-        return this.softwareVersion;
-    }
-
-    public String getSpeed() {
-        return this.speed;
-    }
-
-    public String getDistance() {
-        return this.distance;
-    }
-
-    public String getIdDB() {
-        return this.idDB;
-    }
-
-    public String getMsgcomplet() {
-        return msgcomplet;
-    }
-
-    public void setMsgcomplet(String msgcomplet) {
-        this.msgcomplet = msgcomplet;
-    }
-
-    public static String processDateTime(String date, String time) {
-        //;20190219;18:13:23;
-        //2019-02-19 18:13:23
-        String ano = date.substring(0, 4);
-        String mes = date.substring(4, 6);
-        String dia = date.substring(6, 8);
-        String retorno = ano + "-" + mes + "-" + dia + " " + time;
-        return retorno;
     }
 
     @Override
@@ -205,6 +152,62 @@ public class TrackerST300 implements TrackerInterface, Runnable {
                 Logger.getLogger(TrackerST300.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+    
+    @Override
+    public String getDateTime() {
+        return this.datetime;
+    }
+
+    @Override
+    public String getLatitude() {
+        return this.latitude;
+    }
+
+    @Override
+    public String getLongitude() {
+        return this.longitude;
+    }
+
+    @Override
+    public String getIdTracker() {
+        return this.idtracker;
+    }
+
+    public String getModelDevice() {
+        return this.modelDevice;
+    }
+
+    public String getSoftwareVersion() {
+        return this.softwareVersion;
+    }
+
+    public String getSpeed() {
+        return this.speed;
+    }
+
+    public String getDistance() {
+        return this.distance;
+    }
+
+    public String getIdDB() {
+        return this.idDB;
+    }
+
+    public String getMsgcomplet() {
+        return msgcomplet;
+    }
+
+    public void setMsgcomplet(String msgcomplet) {
+        this.msgcomplet = msgcomplet;
+    }
+
+    public static String processDateTime(String date, String time) {
+        String ano = date.substring(0, 4);
+        String mes = date.substring(4, 6);
+        String dia = date.substring(6, 8);
+        String retorno = ano + "-" + mes + "-" + dia + " " + time;
+        return retorno;
     }
 
 }

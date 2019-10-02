@@ -6,20 +6,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ProcessingModule implements Runnable {
 
-    private ArrayBlockingQueue<TrackerST300> listMsgsProcessed;
     private int timeSleep;
     private int limitThreads;
 
     public ProcessingModule(int time, int limitThreads) {
-        this.listMsgsProcessed = new ArrayBlockingQueue<>(50000);
         this.timeSleep = time;
         this.limitThreads = limitThreads;
     }
@@ -33,17 +28,14 @@ public class ProcessingModule implements Runnable {
             if(!list.isEmpty()){
             
                 //ALOCA PACKET DE MSGS A SEREM PROCESSADAS
-                int count = 0;
                 ArrayList<TrackerST300> lista = new ArrayList<>();
                 for(TrackerST300 track: list){
                     lista.add(track);
-                    count++;
-                    if(count>=this.limitThreads){
+                    if(lista.size()>=this.limitThreads){
                         Thread thread = null;
                         TrackerPack tp = new TrackerPack(lista);
                         thread = new Thread(tp);
                         thread.start();
-                        count=0;
                         lista = new ArrayList<>();
                     }
                 }
@@ -77,7 +69,7 @@ public class ProcessingModule implements Runnable {
             while (rs.next()) {
                 String id = rs.getString("number_id");
                 String content = rs.getString("content");
-                TrackerST300 track = new TrackerST300(content, listMsgsProcessed, id);
+                TrackerST300 track = new TrackerST300(content, id);
                 list.add(track);
             }
             rs.close();
