@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 public class ThreadTracker implements Runnable {
 
     private final Socket client;
-    private ArrayBlockingQueue<String> refSharedList;
+    public ArrayBlockingQueue<String> refSharedList;
 
     public ThreadTracker(Socket client, ArrayBlockingQueue<String> refSharedList) {
         this.client = client;

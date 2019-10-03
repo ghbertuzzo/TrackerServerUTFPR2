@@ -4,22 +4,18 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class CaptureModule implements Runnable {
 
-    private ServerSocket serverSocket;
+    public ServerSocket serverSocket;
     private final int port;
-    private ExecutorService threadPool;
-    private ArrayBlockingQueue<String> listMsgs;
-    private int timeSleep;
+    public ArrayBlockingQueue<String> listMsgs;
+    public int timeSleep;
 
     public CaptureModule(int port, int timesl) {
         this.port = port;
-        this.threadPool = Executors.newCachedThreadPool();
         this.listMsgs = new ArrayBlockingQueue<>(50000);
         this.timeSleep = timesl;
     }
@@ -45,7 +41,10 @@ public class CaptureModule implements Runnable {
             } catch (IOException ex) {
                 Logger.getLogger(CaptureModule.class.getName()).log(Level.SEVERE, null, ex);
             }
-            this.threadPool.execute(new ThreadTracker(client, listMsgs));
+            Thread thread = null;
+            ThreadTracker tt = new ThreadTracker(client, listMsgs);
+            thread = new Thread(tt);
+            thread.start();
         }
     }
 
